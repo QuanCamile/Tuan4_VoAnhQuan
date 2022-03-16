@@ -20,7 +20,9 @@ namespace Tuan4_VoAnhQuan.Models
         [Display(Name = "Giá bán")]
         public double giaban { get; set; }
 
+        
         [Display(Name = "Số lượng")]
+        
         public int iSoluong { get; set; }
 
         [Display(Name = "Thành tiền")]

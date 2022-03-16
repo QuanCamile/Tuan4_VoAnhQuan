@@ -81,6 +81,10 @@ namespace Tuan4_VoAnhQuan.Controllers
             ViewBag.Tongsoluong = TongSoLuong();
             ViewBag.Tongtien = TongTien();
             ViewBag.Tongsoluongsanpham = TongSoLuongSanPham();
+            ViewBag.Message = Session["Message"];
+            
+            Session.Remove("Message");
+            
             return View(listGiohang);
         }
 
@@ -108,9 +112,18 @@ namespace Tuan4_VoAnhQuan.Controllers
         {
             List<Giohang> listGiohang = Laygiohang();
             Giohang sanpham = listGiohang.SingleOrDefault(n => n.masach == id);
+
             if (sanpham != null)
             {
-                sanpham.iSoluong = int.Parse(collection["txtSoLg"].ToString());
+                Sach sach = data.Saches.FirstOrDefault(n => n.masach == id);
+                
+                if (int.Parse(collection["txtSoLg"].ToString()) > sach.soluongton)
+                {
+                    Session["Message"] = "Không đủ số lượng";
+                    
+                    //return RedirectToAction("GioHang");
+                }
+                sanpham.iSoluong = sanpham.iSoluong = int.Parse(collection["txtSoLg"].ToString());
             }
             return RedirectToAction("GioHang");
         }
@@ -121,5 +134,8 @@ namespace Tuan4_VoAnhQuan.Controllers
             listGioHang.Clear();
             return RedirectToAction("GioHang");
         }
+
+        
+       
     }
 }
