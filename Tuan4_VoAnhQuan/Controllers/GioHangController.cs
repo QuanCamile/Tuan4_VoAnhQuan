@@ -9,7 +9,7 @@ namespace Tuan4_VoAnhQuan.Controllers
 {
     public class GioHangController : Controller
     {
-        // GET: GioHang
+        // GET: GioHangdấdadsaadsasdjas
         MydataDataContext data = new MydataDataContext();
         public List<Giohang> Laygiohang()
         {
