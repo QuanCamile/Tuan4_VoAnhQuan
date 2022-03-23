@@ -5,6 +5,9 @@ using System.Web;
 using System.Web.Mvc;
 using System.Data.Linq;
 using Tuan4_VoAnhQuan.Models;
+using System.Net.Mail;
+using System.Net;
+
 namespace Tuan4_VoAnhQuan.Controllers
 {
     public class GioHangController : Controller
@@ -195,7 +198,39 @@ namespace Tuan4_VoAnhQuan.Controllers
             }
             data.SubmitChanges();
             Session["Giohang"] = null;
+
+            try
+            {
+                var senderEmail = new MailAddress("01642027120q@gmail.com", "Võ Anh Quân");
+                var receiverEmail = new MailAddress(kh.email, "Receiver");
+                var password = "QuanAnh23092001";
+                var sub = "Xin cảm ơn";
+                var body = "Đơn hàng của bạn đã xác nhận";
+                var smtp = new SmtpClient
+                {
+                    Host = "smtp.gmail.com",
+                    Port = 587,
+                    EnableSsl = true,
+                    DeliveryMethod = SmtpDeliveryMethod.Network,
+                    UseDefaultCredentials = false,
+                    Credentials = new NetworkCredential(senderEmail.Address, password)
+                };
+                using (var mess = new MailMessage(senderEmail, receiverEmail)
+                {
+                    Subject = sub,
+                    Body = body
+                })
+                {
+                    smtp.Send(mess);
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
             return RedirectToAction("XacNhanDonHang", "GioHang");
+
+            
         }
 
         public ActionResult XacnhanDonhang()
